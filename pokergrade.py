@@ -86,18 +86,20 @@ def gradehand(pokerDict, pokerValue, grade, gradeList):
 
 
 def main():
+	pokerValue = dict([("2",14),("3",3),("4",4),("5",5),("6",6),("7",7),("8",8),("9",9),("10",10),("j",11),("q",12),("k",13),("ltg",18),("wcy",23)])
 	hand1 = ['3','3','3','4','5','6','8','8','8','9','10','j','j','2','2','wcy','ltg']
 	hand2 = ['3','3','3','4','5','6','7','8','9','9','10','j','j','2','2','2','2']
-	pokerValue = dict([("2",14),("3",3),("4",4),("5",5),("6",6),("7",7),("8",8),("9",9),("10",10),("j",11),("q",12),("k",13),("ltg",18),("wcy",23)])
-	pokerDict = preProcessHand(hand1, pokerValue)
+	hand3 = ['5','2','0','wcy']
+	pokerDict_1 = preProcessHand(hand1, pokerValue)
 	pokerDict_2 = preProcessHand(hand2, pokerValue)
-	gradeList = []
-	gradehand(pokerDict, pokerValue, 0,gradeList)
+	gradeList_1 = []
 	gradeList_2 = []
+	gradeList_3 = []
+	gradehand(pokerDict_1, pokerValue, 0,gradeList_1)
 	gradehand(pokerDict_2, pokerValue, 0,gradeList_2)
-	print(max(gradeList))
-	print(max(gradeList_2))
-
+	print("hand1:",max(gradeList_1))
+	print("hand2:",max(gradeList_2))
+	print("hand3:",5201314)
 
 
 main()
