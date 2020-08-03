@@ -1,5 +1,5 @@
 import numpy as np
-
+import os, sys
 def preProcessHand(hand, pokerValue):
 	pokerDict = dict([("3",0),("4",0),("5",0),("6",0),("7",0),("8",0),("9",0),("10",0),("j",0),("q",0),("k",0),("a",0),("2",0),("ltg",0),("wcy",0)])
 	for i in range(len(hand)):
@@ -86,11 +86,11 @@ def gradehand(pokerDict, pokerValue, grade, gradeList):
 	return dumbGrade(pokerDict, pokerValue)+grade
 
 
-def calculateResult(dir, type, pokerValue):
+def calculateResult(fileName, type, pokerValue):
 	print("----------" + type + "----------")
 	farmer = []
 	host = []
-	for line in open(dir, "r"):
+	for line in open(os.path.join(sys.path[0], fileName), "r"):
 		hand = eval(line)
 		pokerDict = preProcessHand(hand, pokerValue)
 		tempGradeList = []
@@ -124,7 +124,7 @@ def calculateResult(dir, type, pokerValue):
 
 def main():
 	pokerValue = dict([("2",14),("3",3),("4",4),("5",5),("6",6),("7",7),("8",8),("9",9),("10",10),("j",11),("q",12),("k",13),("a",14),("ltg",18),("wcy",23)])
-	calculateResult("/Users/ltg/Desktop/card.txt", "not paid", pokerValue)
+	calculateResult("card.txt", "not paid", pokerValue)
 	#calculateResult("", "")
 
 	
