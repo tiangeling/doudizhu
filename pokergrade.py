@@ -1,6 +1,7 @@
+import numpy as np
 
 def preProcessHand(hand, pokerValue):
-	pokerDict = dict([("3",0),("4",0),("5",0),("6",0),("7",0),("8",0),("9",0),("10",0),("j",0),("q",0),("k",0),("2",0),("ltg",0),("wcy",0)])
+	pokerDict = dict([("3",0),("4",0),("5",0),("6",0),("7",0),("8",0),("9",0),("10",0),("j",0),("q",0),("k",0),("a",0),("2",0),("ltg",0),("wcy",0)])
 	for i in range(len(hand)):
 		pokerDict[hand[i]] += 1
 	return pokerDict
@@ -85,21 +86,48 @@ def gradehand(pokerDict, pokerValue, grade, gradeList):
 	return dumbGrade(pokerDict, pokerValue)+grade
 
 
+def calculateResult(dir, type, pokerValue):
+	print("----------" + type + "----------")
+	farmer = []
+	host = []
+	for line in open(dir, "r"):
+		hand = eval(line)
+		pokerDict = preProcessHand(hand, pokerValue)
+		tempGradeList = []
+		gradehand(pokerDict, pokerValue, 0, tempGradeList)
+		if (len(hand) == 17):
+			farmer.append(max(tempGradeList))
+		else:
+			host.append(max(tempGradeList))
+	
+	farmer.sort()
+	host.sort()
+
+	if (len(farmer) != 0):
+		for i in range(len(farmer)):
+			print("Hand " + str(i+1) + " has score " + str(farmer[i]))
+		farmerMean = np.mean(farmer)
+		farmerStd = np.std(farmer, ddof = 1)
+		print("Mean: " + str(farmerMean))
+		print("Std: " + str(farmerStd))
+
+	if (len(host) != 0):
+		for i in range(len(host)):
+			print("Hand " + str(i+1) + " has score " + str(host[i]))
+		hostMean = np.mean(host)
+		hostStd = np.std(farmer, ddof = 1)
+		print("Mean: " + str(hostMean))
+		print("Std: " + str(hostStd))
+	
+	
+
+
 def main():
-	pokerValue = dict([("2",14),("3",3),("4",4),("5",5),("6",6),("7",7),("8",8),("9",9),("10",10),("j",11),("q",12),("k",13),("ltg",18),("wcy",23)])
-	hand1 = ['3','3','3','4','5','6','8','8','8','9','10','j','j','2','2','wcy','ltg']
-	hand2 = ['3','3','3','4','5','6','7','8','9','9','10','j','j','2','2','2','2']
-	hand3 = ['5','2','0','wcy']
-	pokerDict_1 = preProcessHand(hand1, pokerValue)
-	pokerDict_2 = preProcessHand(hand2, pokerValue)
-	gradeList_1 = []
-	gradeList_2 = []
-	gradeList_3 = []
-	gradehand(pokerDict_1, pokerValue, 0,gradeList_1)
-	gradehand(pokerDict_2, pokerValue, 0,gradeList_2)
-	print("hand1:",max(gradeList_1))
-	print("hand2:",max(gradeList_2))
-	print("hand3:",5201314)
+	pokerValue = dict([("2",14),("3",3),("4",4),("5",5),("6",6),("7",7),("8",8),("9",9),("10",10),("j",11),("q",12),("k",13),("a",14),("ltg",18),("wcy",23)])
+	calculateResult("/Users/ltg/Desktop/card.txt", "not paid", pokerValue)
+	#calculateResult("", "")
+
+	
 
 
 main()
